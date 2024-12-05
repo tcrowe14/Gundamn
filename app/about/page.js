@@ -6,7 +6,7 @@ export default function About() {
       <Header />
 
       <div>
-        <p className="text-center mt-20 ">Put some About Stuff here.</p>
+        <p className="text-center mt-20 ">Maybe Put some About Stuff here.</p>
       </div>                   
     
       
