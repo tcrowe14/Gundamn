@@ -35,7 +35,7 @@ function Read() {
       setFilteredGundam(null);
     }
   };
-  
+
 
   return (
     <div>
@@ -86,14 +86,16 @@ function Read() {
             {/* Debugging - Log the image URL */}
             <p>Image URL: {gundam.image}</p>
             <img
-              src={gundam.image}
-              alt={gundam.title}
-              onError={(e) => {
-                console.error("Image failed to load:", e.target.src);
-                e.target.src =
-                  "https://via.placeholder.com/100x100?text=Image+Not+Found"; // Fallback image
-              }}
+                src={`http://localhost:5000/proxy?url=${encodeURIComponent(gundam.image)}`}
+                alt={gundam.title}
+                style={{ width: "200px", height: "auto" }}
+                onError={(e) => {
+                    console.error("Image failed to load:", e.target.src);
+                    e.target.src =
+                    "https://via.placeholder.com/200x200?text=Image+Not+Found"; // Fallback image
+                }}
             />
+
             <p>Title: {gundam.title}</p>
             <p>Price: {gundam.price}</p>
             <p>Release Date: {gundam.release_date}</p>
