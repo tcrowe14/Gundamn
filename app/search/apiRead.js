@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import app from "./_utils/firebase.js";
+import app from "../_utils/firebase.js";
 import { getDatabase, ref, get } from "firebase/database";
 
 function Read() {

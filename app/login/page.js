@@ -3,7 +3,7 @@
 "use client";
 import { useState } from 'react';
 import { FaGoogle, FaGithub, FaApple } from 'react-icons/fa'; 
-import { auth } from '../../_utils/firebase';
+import { auth } from '../_utils/firebase';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, GithubAuthProvider, OAuthProvider } from 'firebase/auth'; 
 import Header from '../components/header';
 
