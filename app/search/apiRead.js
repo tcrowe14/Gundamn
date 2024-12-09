@@ -61,7 +61,7 @@ function Read() {
             {/* Debugging - Log the image URL */}
             <p>Image URL: {filteredGundam.image}</p>
             <img
-              src={filteredGundam.image}
+              src={`https://images.weserv.nl/?url=${encodeURIComponent(filteredGundam.image)}`}
               alt={filteredGundam.title}
               style={{ width: "200px", height: "auto" }}
               onError={(e) => {
@@ -86,7 +86,7 @@ function Read() {
             {/* Debugging - Log the image URL */}
             <p>Image URL: {gundam.image}</p>
             <img
-                src={`http://localhost:5000/proxy?url=${encodeURIComponent(gundam.image)}`}
+                src={`https://images.weserv.nl/?url=${encodeURIComponent(gundam.image)}`}
                 alt={gundam.title}
                 style={{ width: "200px", height: "auto" }}
                 onError={(e) => {
