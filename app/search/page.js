@@ -1,4 +1,5 @@
 import Header from '../components/header';
+import Read from './apiRead.js';
 
 export default function Search() {
   return (
@@ -6,7 +7,7 @@ export default function Search() {
       <Header />
 
       <div>
-        <p className="text-center mt-20 ">Put some Search Stuff here.</p>
+        <Read />
       </div>                   
     
       
