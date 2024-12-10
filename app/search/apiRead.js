@@ -5,13 +5,12 @@ import app from "../_utils/firebase.js";
 import { getDatabase, ref, get } from "firebase/database";
 
 function Read() {
-  const [gundamArray, setGundamArray] = useState([]); // Stores data from Firebase
-  const [searchID, setSearchID] = useState(""); // User-specified ID
-  const [searchedGundams, setSearchedGundams] = useState([]); // Stores multiple search results
-  const [showAll, setShowAll] = useState(false); // Whether to show all data
-  const [dataLoaded, setDataLoaded] = useState(false); // Tracks if data has been loaded from Firebase
+  const [gundamArray, setGundamArray] = useState([]);
+  const [searchID, setSearchID] = useState("");
+  const [searchedGundams, setSearchedGundams] = useState([]);
+  const [showAll, setShowAll] = useState(false);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Fetch data from Firebase on page load
   useEffect(() => {
     const fetchData = async () => {
       const db = getDatabase(app);
@@ -19,26 +18,23 @@ function Read() {
       const snapshot = await get(dbRef);
       if (snapshot.exists()) {
         setGundamArray(Object.values(snapshot.val()));
-        setDataLoaded(true); // Mark data as loaded
+        setDataLoaded(true);
       } else {
         alert("Error fetching data");
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures it runs only once on mount
+  }, []);
 
-  // Format the ID to be 3 digits (e.g., 1 -> 001, 10 -> 010)
   const formatID = (id) => {
     return id.padStart(3, "0");
   };
 
-  // Filter and add a specific Gundam based on the user-specified ID
   const addToSearchResults = () => {
     const formattedID = formatID(searchID);
     const result = gundamArray.find((gundam) => gundam.ID === formattedID);
     if (result) {
-      // Add to the search results only if it's not already in the list
       if (!searchedGundams.some((gundam) => gundam.ID === formattedID)) {
         setSearchedGundams([...searchedGundams, result]);
       } else {
@@ -47,108 +43,135 @@ function Read() {
     } else {
       alert(`No entry found with ID: ${formattedID}`);
     }
-    setSearchID(""); // Clear the input field
+    setSearchID("");
   };
 
-
-  // Remove an individual searched Gundam from the list
-  const removeSearchedItem = (idToRemove) => {
-    setSearchedGundams(searchedGundams.filter((gundam) => gundam.ID !== idToRemove));
+  const goToWiki = (link) => {
+    window.open(link, "_blank");
   };
 
-  // Clear the search results
   const clearSearchResults = () => {
     setSearchedGundams([]);
   };
 
-  // Toggle the "Display All" list
   const toggleShowAll = () => {
     setShowAll(!showAll);
   };
 
   return (
-    <div>
-      <h1>Gundam Database</h1>
-
-      <div className="p-3 m-3 flex flex-row ">
-        <div className=" flex flex-col">
-            <input  
-            className="border border-gray m-0 p-0 align-middle h-10"
-            type="text"
-            placeholder="Enter ID"
-            value={searchID}
-            onChange={(e) => setSearchID(e.target.value)}
-            />
-            <button className ="m-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={addToSearchResults}>Add to Search</button>
-            <button className ="m-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={clearSearchResults}>Clear Search</button> 
-        </div>
-
-        <button className ="m-3 h-10 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={toggleShowAll}>
-          {showAll ? "Hide All" : "Display All"}
+    <div className="min-h-screen bg-slate-200 flex flex-col items-center">
+    <h1 className="text-center text-3xl font-bold py-5">Gundamn! Database</h1>
+    <p className="text-center text-sm">Search for your favorite MG Gundam models!</p>
+    <p className="text-center text-sm">Add a model to the search results by entering the Release# below.</p>
+    <p className="text-center text-sm">Or click on "Display All" to show all models! click "Hide All" to hide those models after.</p>
+    <p className="text-center text-sm">Click on a model to view more details on the Gundam Wikia.</p>
+    <div className="p-3 m-3 flex flex-col items-center">
+        <input
+        className="w-48 pl-2 border border-black m-0 align-middle h-10 active:border-indigo-500 focus:border-indigo-500 focus:outline-none"
+        type="text"
+        placeholder="Enter ID#"
+        value={searchID}
+        onChange={(e) => setSearchID(e.target.value)}
+        />
+        <button
+        className="w-48 m-3 bg-indigo-500 hover:bg-indigo-700 hover:scale-110 text-white font-bold py-2 px-4 rounded hover:shadow-xl transition-transform duration-300"
+        onClick={addToSearchResults}
+        >
+        Add to Search
         </button>
-      </div>
+        <button
+        className="w-48 mb-3 mx-3 bg-indigo-500 hover:bg-indigo-700 hover:scale-110 o text-white font-bold py-2 px-4 rounded hover:shadow-xl transition-transform duration-300"
+        onClick={clearSearchResults}
+        >
+        Clear Search
+        </button>
+        <button
+        className="w-48 mx-3 h-10 bg-indigo-500 hover:bg-indigo-700 hover:scale-110 text-white font-bold py-2 px-4 rounded hover:shadow-xl transition-transform duration-300"
+        onClick={toggleShowAll}
+        >
+        {showAll ? "Hide All" : "Display All"}
+        </button>
+        {!dataLoaded && <p className="py-3 text-center text-xl font-semibold">Loading...</p>}
+    </div>
 
-      {/* Display multiple search results */}
+
+
+      {/* Display searched Gundams */}
       {searchedGundams.length > 0 && (
-        <div>
-          <h2>Searched Results</h2>
-          <ul>
+        <div className="w-auto">
+          <h2 className="text-center text-2xl font-bold">Searched Results</h2>
+          <ul className="flex flex-row m-10 flex-wrap gap-5 justify-center">
             {searchedGundams.map((gundam) => (
-              <li key={gundam.ID}>
-                <p>ID: {gundam.ID}</p>
+              <li
+                className="w-64 h-auto bg-slate-600 text-white flex flex-col items-center justify-between rounded shadow-md cursor-pointer hover:shadow-xl hover:scale-105 transition-transform duration-300 "
+                key={gundam.ID}
+                onClick={() => goToWiki(gundam.link)}
+              >
+                <p className="text-lg font-bold text-center pt-3">{gundam.title}</p>
                 <img
                   src={`https://images.weserv.nl/?url=${encodeURIComponent(
                     gundam.image
                   )}`}
                   alt={gundam.title}
-                  style={{ width: "200px", height: "auto" }}
+                  className="w-auto px-3 h-60  rounded"
                   onError={(e) => {
                     console.error("Image failed to load:", e.target.src);
                     e.target.src =
-                      "https://via.placeholder.com/200x200?text=Image+Not+Found"; // Fallback image
+                      "https://via.placeholder.com/200x200?text=Image+Not+Found";
                   }}
                 />
-                <p>Title: {gundam.title}</p>
-                <p>Price: {gundam.price}</p>
-                <p>Release Date: {gundam.release_date}</p>
-                <p>Series: {gundam.series}</p>
-                <button onClick={() => removeSearchedItem(gundam.ID)}>Remove</button>
+                <div className="text-center text-sm mt-2">
+                  <p className="font-medium">#{gundam.ID}</p>
+                  <p>Price: {gundam.price}</p>
+                  <p>Release Date: {gundam.release_date}</p>
+                  <p className="pb-3">Series: {gundam.series}</p>
+                </div>
               </li>
             ))}
           </ul>
         </div>
       )}
 
-
-
+      {/* Display all Gundams */}
       {showAll && (
-        <ul>
-          <h2>All Gundam Models</h2>
-          {gundamArray.map((gundam, index) => (
-            <li key={index}>
-              <p>ID: {gundam.ID}</p>
-              <img
-                src={`https://images.weserv.nl/?url=${encodeURIComponent(
-                  gundam.image
-                )}`}
-                alt={gundam.title}
-                style={{ width: "200px", height: "auto" }}
-                onError={(e) => {
-                  console.error("Image failed to load:", e.target.src);
-                  e.target.src =
-                    "https://via.placeholder.com/200x200?text=Image+Not+Found"; // Fallback image
-                }}
-              />
-              <p>Title: {gundam.title}</p>
-              <p>Price: {gundam.price}</p>
-              <p>Release Date: {gundam.release_date}</p>
-              <p>Series: {gundam.series}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="w-auto">
+          <h2 className="text-center text-2xl font-bold">All Gundam Models</h2>
+          <ul className="flex flex-row m-10 flex-wrap gap-5 justify-center">
+            {gundamArray.map((gundam, index) => (
+              <li
+                className="w-64 h-auto bg-slate-600 text-white p-4 flex flex-col items-center justify-between rounded shadow-md cursor-pointer hover:shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out"
+                key={index}
+                onClick={() => goToWiki(gundam.link)}
+              >
+                <p className="text-lg font-bold text-center">{gundam.title}</p>
+                <img
+                  src={`https://images.weserv.nl/?url=${encodeURIComponent(
+                    gundam.image
+                  )}`}
+                  alt={gundam.title}
+                  className="w-auto h-56 object-contain mt-2"
+                  onError={(e) => {
+                    console.error("Image failed to load:", e.target.src);
+                    e.target.src =
+                      "https://via.placeholder.com/200x200?text=Image+Not+Found";
+                  }}
+                />
+                <div className="text-center text-sm mt-2">
+                  <p className="font-medium">#{gundam.ID}</p>
+                  <p>Price: {gundam.price}</p>
+                  <p>Release Date: {gundam.release_date}</p>
+                  <p>Series: {gundam.series}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
-
-      {!dataLoaded && <p>Loading data, please wait...</p>}
+    
+        {/* Footer */}
+        <footer className="bg-slate-200 p-4 text-center">
+            <p className="text-gray-700">© 2024 Gundam Database. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }
