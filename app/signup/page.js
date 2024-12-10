@@ -1,17 +1,19 @@
 "use client";
 import { useState } from 'react';
-import { auth } from '../_utils/firebase';
+import { auth, db } from '../_utils/firebase';
 import { createUserWithEmailAndPassword } from 'firebase/auth'; 
+import { doc, setDoc } from 'firebase/firestore';
 import Header from '../components/header';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     // Validate passwords match
@@ -30,15 +32,19 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      // Create a new user using Firebase Authentication
-      await createUserWithEmailAndPassword(auth, email, password);
-      console.log('Account created successfully');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save user email to Firestore
+      await setDoc(doc(db, 'users', user.uid), { email, username, signupDate: new Date().toISOString() });
+
+      setLoading(false);
+      // Redirect or show success message
       window.location.href = '/profile';
     } catch (error) {
-      console.error('Error creating user', error);
-      setError('Failed to create account. Please try again.');
-    } finally {
+      setError(error.message);
       setLoading(false);
+      
     }
   };
 
@@ -52,7 +58,7 @@ export default function SignUp() {
 
           {error && <div className="bg-red-500 text-white p-2 mb-4 rounded">{error}</div>}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSignup} className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-white">Email</label>
               <input
@@ -60,6 +66,18 @@ export default function SignUp() {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                required
+              />
+            </div>
+
+            <div>
+              <label htmlFor="username" className="block text-white">Username</label>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 className="w-full p-3 bg-gray-700 text-white rounded-md border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600"
                 required
               />
