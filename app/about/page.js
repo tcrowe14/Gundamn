@@ -3,7 +3,7 @@ import Header from '../components/header';
 const teamMembers = [
   {
     name: 'Taylor Crowe',
-    bio: 'Taylor has worked in the technical communications field for 14 years as a foreman at a large electrical contractor in Calgary. During this period, he has been a part of several premier projects including The Bow, Brookfield Place, IOL South Campus, and Equinix Data Centers. With expertise in new construction, retrofits, re-stacks, and troubleshooting he is versatile in all aspects of network deployment. Fluent in traditional wired networks and emerging wireless technologies such as DAS and 5G. Recently Taylor lead the BMO Convention Center expansion, Western Canada’s largest facility. Previously Taylor worked in logistics giving him insight into supply chain management and back-end processes.',
+    bio: 'Taylor has worked in the technical communications field for 14 years as a foreman at a large electrical contractor in Calgary. During this period, he has been a part of several premier projects including The Bow, Brookfield Place, IOL South Campus, and Equinix Data Centers. With expertise in new construction, retrofits, re-stacks, and troubleshooting he is versatile in all aspects of network deployment. Fluent in traditional wired networks and emerging wireless technologies such as DAS and 5G. Recently Taylor lead the BMO Convention Center expansion, Western Canada&#39;s largest facility. Previously Taylor worked in logistics giving him insight into supply chain management and back-end processes.',
     img: '/images/Taylor.jpg'
   },
   {
