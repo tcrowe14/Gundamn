@@ -34,12 +34,12 @@ export default function Guides() {
               </li>
               <li>
                 <a href="https://www.youtube.com/playlist?list=PLCdup8DSCfy94zI6K-kO494-8Owf_MamL" className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
-                  Zakuaurelius' Tutorials
+                  Zakuaurelius&#39; Tutorials
                 </a>
               </li>
               <li>
                 <a href="https://www.youtube.com/playlist?list=PL51B1F31506B36522" className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
-                  Mokanaman's Gundam/Mech Model Workshop
+                  Mokanaman&#39;s Gundam/Mech Model Workshop
                 </a>
               </li>
             </ul>

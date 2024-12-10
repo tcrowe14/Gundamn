@@ -49,7 +49,7 @@ export default function News() {
         <h2 className="font-bold text-slate-700 text-xl">khara x SUNRISE, a crossing of dreams</h2>
         <p className="mt-4 text-slate-700">
           Prior to the airing of TV series, theatrical version using re-edited episodes…<br />
-          <strong>“Mobile Suit Gundam GQuuuuuuX -Beginning-"</strong><br />
+          <strong>&#34;Mobile Suit Gundam GQuuuuuuX -Beginning-&#34;</strong><br />
           Coming to theaters in Japan, January 17th!
         </p>
         <p className="mt-4 text-slate-700">
