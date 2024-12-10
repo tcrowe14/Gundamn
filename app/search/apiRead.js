@@ -28,20 +28,32 @@ function Read() {
     fetchData();
   }, []); // Empty dependency array ensures it runs only once on mount
 
+  // Format the ID to be 3 digits (e.g., 1 -> 001, 10 -> 010)
+  const formatID = (id) => {
+    return id.padStart(3, "0");
+  };
+
   // Filter and add a specific Gundam based on the user-specified ID
   const addToSearchResults = () => {
-    const result = gundamArray.find((gundam) => gundam.ID === searchID);
+    const formattedID = formatID(searchID);
+    const result = gundamArray.find((gundam) => gundam.ID === formattedID);
     if (result) {
       // Add to the search results only if it's not already in the list
-      if (!searchedGundams.some((gundam) => gundam.ID === searchID)) {
+      if (!searchedGundams.some((gundam) => gundam.ID === formattedID)) {
         setSearchedGundams([...searchedGundams, result]);
       } else {
-        alert(`Entry with ID ${searchID} is already in the search results.`);
+        alert(`Entry with ID ${formattedID} is already in the search results.`);
       }
     } else {
-      alert(`No entry found with ID: ${searchID}`);
+      alert(`No entry found with ID: ${formattedID}`);
     }
     setSearchID(""); // Clear the input field
+  };
+
+
+  // Remove an individual searched Gundam from the list
+  const removeSearchedItem = (idToRemove) => {
+    setSearchedGundams(searchedGundams.filter((gundam) => gundam.ID !== idToRemove));
   };
 
   // Clear the search results
@@ -49,23 +61,31 @@ function Read() {
     setSearchedGundams([]);
   };
 
+  // Toggle the "Display All" list
+  const toggleShowAll = () => {
+    setShowAll(!showAll);
+  };
+
   return (
     <div>
       <h1>Gundam Database</h1>
 
-      {/* Input to specify ID */}
-      <div>
-        <input
-          type="text"
-          placeholder="Enter ID"
-          value={searchID}
-          onChange={(e) => setSearchID(e.target.value)}
-        />
-        <button onClick={addToSearchResults}>Add to Search</button>
-        <button onClick={clearSearchResults}>Clear Search</button>
-      </div>
-      <div>
-        <button onClick={() => setShowAll(true)}>Display All</button>
+      <div className="p-3 m-3 flex flex-row ">
+        <div className=" flex flex-col">
+            <input  
+            className="border border-gray m-0 p-0 align-middle h-10"
+            type="text"
+            placeholder="Enter ID"
+            value={searchID}
+            onChange={(e) => setSearchID(e.target.value)}
+            />
+            <button className ="m-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={addToSearchResults}>Add to Search</button>
+            <button className ="m-3 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={clearSearchResults}>Clear Search</button> 
+        </div>
+
+        <button className ="m-3 h-10 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded" onClick={toggleShowAll}>
+          {showAll ? "Hide All" : "Display All"}
+        </button>
       </div>
 
       {/* Display multiple search results */}
@@ -92,16 +112,15 @@ function Read() {
                 <p>Price: {gundam.price}</p>
                 <p>Release Date: {gundam.release_date}</p>
                 <p>Series: {gundam.series}</p>
+                <button onClick={() => removeSearchedItem(gundam.ID)}>Remove</button>
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Button to show all data */}
 
 
-      {/* Display all data if "Display All" button is clicked */}
       {showAll && (
         <ul>
           <h2>All Gundam Models</h2>
@@ -129,7 +148,6 @@ function Read() {
         </ul>
       )}
 
-      {/* Loading message if data is not yet fetched */}
       {!dataLoaded && <p>Loading data, please wait...</p>}
     </div>
   );
