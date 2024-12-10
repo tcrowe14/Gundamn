@@ -27,7 +27,7 @@ export default function Login() {
       // Sign in using Firebase Authentication
       await signInWithEmailAndPassword(auth, email, password);
       console.log('Login successful');
-      window.location.href = '/';
+      window.location.href = '/profile';
     } catch (error) {
       console.error('Error signing in', error);
       setError('Failed to login. Please check your credentials.');

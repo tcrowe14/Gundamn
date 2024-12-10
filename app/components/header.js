@@ -1,6 +1,24 @@
+"use client";
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../_utils/firebase';
 
 export default function Header() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <main>
       <header className="bg-slate-300">
@@ -29,6 +47,9 @@ export default function Header() {
                 <li className="md:px-4 md:py-2 hover:text-indigo-400"><Link href="/guides">Guides</Link></li>
                 <li className="md:px-4 md:py-2 hover:text-indigo-400"><Link href="/search">Search</Link></li>
                 <li className="md:px-4 md:py-2 hover:text-indigo-400"><Link href="/about">About</Link></li>
+                {user && (
+                  <li className="md:px-4 md:py-2 hover:text-indigo-400"><Link href="/profile">Profile</Link></li>
+                )}
               </ul>
             </div>
             <div className="order-2 md:order-3">
