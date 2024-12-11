@@ -60,11 +60,11 @@ function Read() {
 
   return (
     <div className="min-h-screen bg-slate-200 flex flex-col items-center">
-    <h1 className="text-center text-3xl font-bold py-5">Gundamn! Database</h1>
-    <p className="text-center text-sm">Search for your favorite MG Gundam models!</p>
-    <p className="text-center text-sm">Add a model to the search results by entering the Release# below.</p>
-    <p className="text-center text-sm">Or click on Display All to show all models! click Hide All to hide those models after.</p>
-    <p className="text-center text-sm">Click on a model to view more details on the Gundam Wikia.</p>
+    <h1 className="text-center text-3xl font-bold py-5 text-slate-700">Gundamn! Database</h1>
+    <p className="text-center text-sm text-slate-700">Search for your favorite MG Gundam models!</p>
+    <p className="text-center text-sm text-slate-700">Add a model to the search results by entering the Release# below.</p>
+    <p className="text-center text-sm text-slate-700">Or click on Display All to show all models! click Hide All to hide those models after.</p>
+    <p className="text-center text-sm text-slate-700">Click on a model to view more details on the Gundam Wikia.</p>
     <div className="p-3 m-3 flex flex-col items-center">
         <input
         className="w-48 pl-2 border border-black m-0 align-middle h-10 active:border-indigo-500 focus:border-indigo-500 focus:outline-none"
