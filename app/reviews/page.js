@@ -5,8 +5,8 @@ export default function Reviews() {
     <main>
       <Header />
 
-      <div>
-        <p className="text-center mt-20 ">Put some Review Stuff here.</p>
+      <div className='min-h-screen bg-slate-200 flex flex-col items-center'>
+        <p className="text-center mt-20 ">Under Construction! 🚧</p>
       </div>                   
     
       
