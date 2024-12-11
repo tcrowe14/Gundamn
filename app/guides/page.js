@@ -2,10 +2,10 @@ import Header from '../components/header';
 
 export default function Guides() {
   return (
-    <main className="bg-gray-900 min-h-screen text-white">
+    <main className="bg-slate-200 min-h-screen text-white">
       <Header />
       <div className="container mx-auto p-4">
-        <div className="max-w-2xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div className="max-w-2xl mx-auto bg-slate-600 p-6 rounded-lg shadow-lg">
           <h1 className="text-3xl font-bold mb-6">Guides</h1>
 
           <section className="mb-8">

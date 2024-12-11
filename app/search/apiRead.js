@@ -94,9 +94,6 @@ function Read() {
         {!dataLoaded && <p className="py-3 text-center text-xl font-semibold">Loading...</p>}
     </div>
 
-
-
-      {/* Display searched Gundams */}
       {searchedGundams.length > 0 && (
         <div className="w-auto">
           <h2 className="text-center text-2xl font-bold">Searched Results</h2>
@@ -132,7 +129,6 @@ function Read() {
         </div>
       )}
 
-      {/* Display all Gundams */}
       {showAll && (
         <div className="w-auto">
           <h2 className="text-center text-2xl font-bold">All Gundam Models</h2>
@@ -168,10 +164,7 @@ function Read() {
         </div>
       )}
     
-        {/* Footer */}
-        <footer className="bg-slate-200 p-4 text-center">
-            <p className="text-gray-700">© 2024 Gundam Database. All Rights Reserved.</p>
-      </footer>
+
     </div>
   );
 }
